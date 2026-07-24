@@ -153,7 +153,7 @@ function IntakeFlow({ step, go, insp }) {
           ))}
         </div>
         <p className="mt-5 text-xs" style={{ color: C.slate }}>
-          Tuesday, 10:15 AM with Dr. Alvarez
+          Tuesday, 10:15 AM with Dr. Simmons
         </p>
         <div className="mt-4">
           <Btn onClick={() => go(1)}>Continue</Btn>
@@ -171,7 +171,7 @@ function IntakeFlow({ step, go, insp }) {
           </h2>
           <p className="mt-2 text-sm leading-relaxed" style={{ color: C.inkSoft }}>
             Your last one was March 2023. Screenings are recommended every year, and
-            catching things early is the whole point. Dr. Alvarez can order it Tuesday
+            catching things early is the whole point. Dr. Simmons can order it Tuesday
             so you only make one trip.
           </p>
         </Marked>
@@ -215,8 +215,8 @@ function IntakeFlow({ step, go, insp }) {
         </p>
         <Marked layer="rule" on={insp} className="mt-5">
           <div className="px-3 py-3 rounded-lg text-xs" style={{ background: C.paper, color: C.slate }}>
-            Order request queued to Dr. Alvarez for sign-off. Patient is not told an order
-            exists until a clinician approves it.
+            Order request queued to Dr. Simmons for sign-off. Nothing is described to the
+            patient as an order until a clinician approves it.
           </div>
         </Marked>
         <div className="mt-5">
@@ -247,8 +247,8 @@ function IntakeFlow({ step, go, insp }) {
         </div>
         <Marked layer="rule" on={insp} className="mt-5">
           <div className="px-3 py-3 rounded-lg text-xs" style={{ background: C.paper, color: C.slate }}>
-            Routed to staff to reconcile against outside records. The gap is paused, not
-            closed. Nobody marks a screening complete on a patient&apos;s say-so.
+            Routed to staff to reconcile against outside records. The gap moves to paused
+            and stays open until the records arrive. Self-report does not close it.
           </div>
         </Marked>
         <div className="mt-5">
@@ -265,13 +265,13 @@ function IntakeFlow({ step, go, insp }) {
         No problem.
       </h2>
       <p className="mt-2 text-sm leading-relaxed" style={{ color: C.inkSoft }}>
-        We won&apos;t bring it up again for a while. You can always ask Dr. Alvarez about
+        We won&apos;t bring it up again for a while. You can always ask Dr. Simmons about
         it Tuesday.
       </p>
       <Marked layer="rule" on={insp} className="mt-5">
         <div className="px-3 py-3 rounded-lg text-xs" style={{ background: C.paper, color: C.slate }}>
-          Suppressed for 90 days and logged. A declined gap that keeps reappearing is how
-          you train patients to ignore the whole product.
+          Suppressed for 90 days and written to the log. A declined gap that keeps
+          reappearing trains patients to ignore everything else Yosi sends.
         </div>
       </Marked>
       <div className="mt-5">
@@ -322,8 +322,8 @@ function LapsedFlow({ step, go, insp }) {
         </div>
         <Marked layer="rule" on={insp} className="mt-5">
           <div className="px-3 py-3 rounded-lg text-xs" style={{ background: C.paper, color: C.slate }}>
-            No condition, no result, no clinical detail in the text. The message is a door,
-            not a disclosure. Everything specific lives behind sign-in.
+            No condition, no result, no clinical detail in the text. Everything specific
+            lives behind verification.
           </div>
         </Marked>
         <div className="mt-5">
@@ -350,7 +350,7 @@ function LapsedFlow({ step, go, insp }) {
         </div>
         <Marked layer="rule" on={insp} className="mt-5">
           <div className="px-3 py-3 rounded-lg text-xs" style={{ background: C.paper, color: C.slate }}>
-            Phones get shared, resold, and reassigned. Verification is what makes the next
+            Phones get shared, resold, and reassigned. The check is what makes the next
             screen safe to show.
           </div>
         </Marked>
@@ -394,8 +394,8 @@ function LapsedFlow({ step, go, insp }) {
           </div>
         </Marked>
         <p className="mt-4 text-xs" style={{ color: C.slate }}>
-          Ray answers texts in the evening and ignores email. That is why this is a text,
-          sent at 6:40 PM.
+          Ray answers texts in the evening and rarely opens email. This one went out at
+          6:40 PM.
         </p>
       </Phone>
     );
@@ -417,7 +417,7 @@ function LapsedFlow({ step, go, insp }) {
       </p>
       <Marked layer="yosi" on={insp} className="mt-5">
         <div className="px-3 py-3 rounded-lg text-xs" style={{ background: C.paper, color: C.slate }}>
-          Straight into the existing pre-arrival flow. The gap that started this becomes a
+          This drops into the existing pre-arrival flow. The gap that started it becomes a
           normal Yosi visit, and the front desk was never involved.
         </div>
       </Marked>
@@ -439,7 +439,7 @@ const ROWS = [
   { pt: "Denise O.", gap: "Colonoscopy", status: "Needs staff", detail: "Says completed elsewhere, records requested", tone: "amber" },
   { pt: "Anthony P.", gap: "Mammogram", status: "Suppressed", detail: "Already scheduled 8/12", tone: "slate" },
   { pt: "Carol T.", gap: "A1c", status: "Suppressed", detail: "Declined 6/02, quiet until 8/31", tone: "slate" },
-  { pt: "Luis M.", gap: "Abnormal result follow-up", status: "Never automated", detail: "Acuity tier 3, routed to Dr. Alvarez", tone: "red" },
+  { pt: "Luis M.", gap: "Abnormal result follow-up", status: "Never automated", detail: "Acuity tier 3, routed to Dr. Simmons", tone: "red" },
 ];
 
 const TONE = { green: C.green, amber: C.amber, slate: C.slate, red: C.red };
@@ -512,9 +512,8 @@ function StaffView({ insp }) {
           style={{ background: C.white, border: `1px solid ${C.line}`, color: C.slate }}
         >
           <span style={{ color: C.ink, fontWeight: 600 }}>Why suppressions are visible.</span>{" "}
-          Staff trust a queue they can audit. Every gap the system chose not to surface is
-          listed with its reason, so the front desk can see the product is filtering rather
-          than missing. Tier 3 items never enter the automated path at all.
+          Every gap the system held back is listed with its reason, so the front desk can
+          audit what happened and why. Tier 3 items never enter the automated path.
         </div>
       </Marked>
     </div>
@@ -527,43 +526,43 @@ function StaffView({ insp }) {
 const NOTES = {
   "intake-0": {
     h: "This is Yosi today",
-    p: "Maria is finishing pre-arrival intake for Tuesday. She is already in the flow. That is the entire wedge: no new channel, no campaign, no second login, no staff task.",
+    p: "Maria is finishing pre-arrival intake for Tuesday. She is already in the session and already answering questions. Everything that follows happens inside it, so there is no campaign to run and nothing lands on the front desk.",
   },
   "intake-1": {
-    h: "Detection is a rule. The sentence is the AI.",
-    p: "Female, 52, no mammogram in 26 months is deterministic logic against structured data. Calling that AI would be dishonest. What a model earns here is the plain-language rewrite, the reading level, and the reason this matters to her rather than to a quality measure.",
+    h: "Detection is just a rule",
+    p: "Female, 52, no mammogram in 26 months. Deterministic logic on structured data. The model's job starts after that: plain language, right reading level, framed around what it means for Maria.",
   },
   "intake-2": {
-    h: "One tap, zero staff time",
-    p: "Everyone else turns a care gap into a work item for a person who has no capacity to work it. Here it attaches to an appointment that already exists and waits for clinician sign-off.",
+    h: "One tap, no staff time",
+    p: "Most care gap tools produce a work item for a staff member who has no capacity to work it. This one attaches to an appointment that already exists, then waits for clinician sign-off.",
   },
   "intake-3": {
-    h: "The answer that protects the data",
-    p: "Outside records are the most common reason gap lists are wrong. Patients get an honest option, and the gap pauses rather than closing. Nothing is marked complete on self-report.",
+    h: "Outside records",
+    p: "Outside records are the most common reason gap lists go stale. Maria gets an option that matches what actually happened, and the gap moves to paused while staff request the records. Self-report alone does not close it.",
   },
   "intake-4": {
-    h: "Declining has to be respected",
-    p: "Ninety-day suppression, logged. A nudge that ignores a no is how you teach patients to ignore everything Yosi sends, which puts the core intake product at risk.",
+    h: "A no is recorded",
+    p: "Ninety-day suppression, written to the log. If the same prompt comes back next week, patients start ignoring everything Yosi sends, and that puts the core intake product at risk.",
   },
   "lapsed-0": {
-    h: "A door, not a disclosure",
-    p: "No condition, no result, no clinical detail in an unauthenticated channel. This is the constraint that decides the whole design, and it is worth saying out loud before anyone asks.",
+    h: "What can go in a text",
+    p: "No condition, no result, no clinical detail in an unauthenticated channel. That constraint shapes the rest of the design, so it is worth stating before anyone asks.",
   },
   "lapsed-1": {
-    h: "Verify before you reveal",
-    p: "Numbers get reassigned and phones get shared. Date-of-birth verification is what makes the next screen defensible.",
+    h: "Verification",
+    p: "Numbers get reassigned and phones get shared. Date of birth is a low-friction check, and it is what makes the next screen safe to show.",
   },
   "lapsed-2": {
-    h: "Where Yosi has data nobody else does",
-    p: "Ray answers texts in the evening and never opens email. Channel and timing come from Yosi's own engagement history across practices. A population health vendor can compute the same gap and cannot send this message.",
+    h: "Where the proprietary data sits",
+    p: "Ray answers texts in the evening and rarely opens email. Channel and send time come from Yosi's engagement history across practices. A population health vendor can compute the same gap. Choosing the channel and the hour takes data it does not have.",
   },
   "lapsed-3": {
     h: "It ends in a booked slot",
-    p: "Not a task, not a call-the-office message. The lapsed patient re-enters the normal pre-arrival flow and the front desk was never involved.",
+    p: "The outcome is an appointment on the schedule. Ray re-enters the normal pre-arrival flow from there, and the front desk was never involved.",
   },
   staff: {
     h: "The practice is the buyer",
-    p: "So the number that matters is how much closed without anyone touching it. The holdout is 10 percent of eligible patients who receive nothing, which is the only way to separate this from seasonality and the reminders Yosi already sends. Intake completion sits next to it as a guardrail: if this feature ever drags the core product down, it gets turned off.",
+    p: "So the number that matters is the share that closed without anyone touching it. The holdout is 10 percent of eligible patients who receive nothing, which is how you separate this from seasonality and the reminders Yosi already sends. Intake completion sits next to it as a guardrail. If this feature drags the core product down, it gets turned off.",
   },
 };
 
@@ -704,8 +703,8 @@ export default function YosiPrototype() {
           <div className="mt-8 pt-5" style={{ borderTop: `1px solid ${C.line}` }}>
             <p className="text-xs leading-relaxed" style={{ color: C.slate }}>
               Built as a scoped prototype: one specialty, fictional patients, no
-              authentication. Detection logic is stubbed. The point is the workflow and the
-              guardrails, not the model.
+              authentication. Detection logic is stubbed. What it demonstrates is the
+              workflow and the guardrails around it.
             </p>
           </div>
         </div>
