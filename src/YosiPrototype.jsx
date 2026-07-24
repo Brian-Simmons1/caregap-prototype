@@ -127,6 +127,32 @@ function Eyebrow({ children }) {
   );
 }
 
+/* Commentary about the screen, never content on the screen. Lives outside the
+   phone frame on the page background so it cannot be mistaken for product UI. */
+function Aside({ children, layer, insp, wide = false }) {
+  const body = (
+    <div className="pl-3" style={{ borderLeft: `2px solid ${C.line}` }}>
+      <div style={{ ...mono, fontSize: "9px", letterSpacing: "0.14em", color: C.slate }}>
+        BEHIND THIS SCREEN
+      </div>
+      <div className="mt-1 text-xs leading-relaxed" style={{ color: C.slate }}>
+        {children}
+      </div>
+    </div>
+  );
+  return (
+    <div className="mx-auto w-full mt-5" style={{ maxWidth: wide ? "100%" : "340px" }}>
+      {layer ? (
+        <Marked layer={layer} on={insp}>
+          {body}
+        </Marked>
+      ) : (
+        body
+      )}
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /*  Flow 1 — Pre-arrival intake                                        */
 /* ------------------------------------------------------------------ */
@@ -199,6 +225,7 @@ function IntakeFlow({ step, go, insp }) {
 
   if (step === 2)
     return (
+      <>
       <Phone>
         <div
           className="w-10 h-10 rounded-full flex items-center justify-center"
@@ -213,22 +240,22 @@ function IntakeFlow({ step, go, insp }) {
           The front desk has it. Nothing else for you to do. You&apos;ll be at the same
           visit, same time.
         </p>
-        <Marked layer="rule" on={insp} className="mt-5">
-          <div className="px-3 py-3 rounded-lg text-xs" style={{ background: C.paper, color: C.slate }}>
-            Order request queued to Dr. Simmons for sign-off. Nothing is described to the
-            patient as an order until a clinician approves it.
-          </div>
-        </Marked>
         <div className="mt-5">
           <Btn kind="ghost" onClick={() => go(0)}>
             Replay this flow
           </Btn>
         </div>
       </Phone>
+        <Aside layer="rule" insp={insp}>
+          Order request queued to Dr. Simmons for sign-off. Nothing is described to the
+          patient as an order until a clinician approves it.
+        </Aside>
+      </>
     );
 
   if (step === 3)
     return (
+      <>
       <Phone>
         <Eyebrow>GOT IT</Eyebrow>
         <h2 className="mt-2 text-lg font-semibold" style={{ color: C.ink }}>
@@ -245,21 +272,21 @@ function IntakeFlow({ step, go, insp }) {
             </div>
           ))}
         </div>
-        <Marked layer="rule" on={insp} className="mt-5">
-          <div className="px-3 py-3 rounded-lg text-xs" style={{ background: C.paper, color: C.slate }}>
-            Routed to staff to reconcile against outside records. The gap moves to paused
-            and stays open until the records arrive. Self-report does not close it.
-          </div>
-        </Marked>
         <div className="mt-5">
           <Btn kind="ghost" onClick={() => go(0)}>
             Replay this flow
           </Btn>
         </div>
       </Phone>
+        <Aside layer="rule" insp={insp}>
+          Routed to staff to reconcile against outside records. The gap moves to paused
+          and stays open until the records arrive. Self-report does not close it.
+        </Aside>
+      </>
     );
 
   return (
+    <>
     <Phone>
       <h2 className="text-lg font-semibold" style={{ color: C.ink }}>
         No problem.
@@ -268,18 +295,17 @@ function IntakeFlow({ step, go, insp }) {
         We won&apos;t bring it up again for a while. You can always ask Dr. Simmons about
         it Tuesday.
       </p>
-      <Marked layer="rule" on={insp} className="mt-5">
-        <div className="px-3 py-3 rounded-lg text-xs" style={{ background: C.paper, color: C.slate }}>
-          Suppressed for 90 days and written to the log. A declined gap that keeps
-          reappearing trains patients to ignore everything else Yosi sends.
-        </div>
-      </Marked>
       <div className="mt-5">
         <Btn kind="ghost" onClick={() => go(0)}>
           Replay this flow
         </Btn>
       </div>
     </Phone>
+      <Aside layer="rule" insp={insp}>
+        Suppressed for 90 days and written to the log. A declined gap that keeps
+        reappearing trains patients to ignore everything else Yosi sends.
+      </Aside>
+    </>
   );
 }
 
@@ -307,6 +333,7 @@ function Bubble({ children, from = "them" }) {
 function LapsedFlow({ step, go, insp }) {
   if (step === 0)
     return (
+      <>
       <Phone chrome="Messages">
         <Eyebrow>SMS &middot; RAY WHITFIELD</Eyebrow>
         <div className="mt-4 space-y-2">
@@ -320,20 +347,20 @@ function LapsedFlow({ step, go, insp }) {
             </Bubble>
           </Marked>
         </div>
-        <Marked layer="rule" on={insp} className="mt-5">
-          <div className="px-3 py-3 rounded-lg text-xs" style={{ background: C.paper, color: C.slate }}>
-            No condition, no result, no clinical detail in the text. Everything specific
-            lives behind verification.
-          </div>
-        </Marked>
         <div className="mt-5">
           <Btn onClick={() => go(1)}>Tap the link</Btn>
         </div>
       </Phone>
+        <Aside layer="rule" insp={insp}>
+          No condition, no result, no clinical detail in the text. Everything specific
+          lives behind verification.
+        </Aside>
+      </>
     );
 
   if (step === 1)
     return (
+      <>
       <Phone>
         <Eyebrow>CONFIRM IT&apos;S YOU</Eyebrow>
         <h2 className="mt-2 text-lg font-semibold" style={{ color: C.ink }}>
@@ -348,17 +375,17 @@ function LapsedFlow({ step, go, insp }) {
         <div className="mt-4">
           <Btn onClick={() => go(2)}>Continue</Btn>
         </div>
-        <Marked layer="rule" on={insp} className="mt-5">
-          <div className="px-3 py-3 rounded-lg text-xs" style={{ background: C.paper, color: C.slate }}>
-            Phones get shared, resold, and reassigned. The check is what makes the next
-            screen safe to show.
-          </div>
-        </Marked>
       </Phone>
+        <Aside layer="rule" insp={insp}>
+          Phones get shared, resold, and reassigned. The check is what makes the next
+          screen safe to show.
+        </Aside>
+      </>
     );
 
   if (step === 2)
     return (
+      <>
       <Phone>
         <Marked layer="ai" on={insp}>
           <h2 className="text-lg font-semibold leading-snug" style={{ color: C.ink }}>
@@ -393,14 +420,16 @@ function LapsedFlow({ step, go, insp }) {
             </div>
           </div>
         </Marked>
-        <p className="mt-4 text-xs" style={{ color: C.slate }}>
+      </Phone>
+        <Aside insp={insp}>
           Ray answers texts in the evening and rarely opens email. This one went out at
           6:40 PM.
-        </p>
-      </Phone>
+        </Aside>
+      </>
     );
 
   return (
+    <>
     <Phone>
       <div
         className="w-10 h-10 rounded-full flex items-center justify-center"
@@ -415,18 +444,17 @@ function LapsedFlow({ step, go, insp }) {
         July 30 at 8:20 AM. We&apos;ll text you a reminder and your intake forms the day
         before.
       </p>
-      <Marked layer="yosi" on={insp} className="mt-5">
-        <div className="px-3 py-3 rounded-lg text-xs" style={{ background: C.paper, color: C.slate }}>
-          This drops into the existing pre-arrival flow. The gap that started it becomes a
-          normal Yosi visit, and the front desk was never involved.
-        </div>
-      </Marked>
       <div className="mt-5">
         <Btn kind="ghost" onClick={() => go(0)}>
           Replay this flow
         </Btn>
       </div>
     </Phone>
+      <Aside layer="yosi" insp={insp}>
+        This drops into the existing pre-arrival flow. The gap that started it becomes a
+        normal Yosi visit, and the front desk was never involved.
+      </Aside>
+    </>
   );
 }
 
@@ -506,16 +534,11 @@ function StaffView({ insp }) {
         ))}
       </div>
 
-      <Marked layer="rule" on={insp} className="mt-4">
-        <div
-          className="px-4 py-4 rounded-lg text-xs leading-relaxed"
-          style={{ background: C.white, border: `1px solid ${C.line}`, color: C.slate }}
-        >
-          <span style={{ color: C.ink, fontWeight: 600 }}>Why suppressions are visible.</span>{" "}
-          Every gap the system held back is listed with its reason, so the front desk can
-          audit what happened and why. Tier 3 items never enter the automated path.
-        </div>
-      </Marked>
+      <Aside layer="rule" insp={insp} wide>
+        <span style={{ color: C.ink, fontWeight: 600 }}>Why suppressions are visible.</span>{" "}
+        Every gap the system held back is listed with its reason, so the front desk can
+        audit what happened and why. Tier 3 items never enter the automated path.
+      </Aside>
     </div>
   );
 }
