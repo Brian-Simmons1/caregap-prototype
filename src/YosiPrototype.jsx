@@ -465,7 +465,7 @@ const ROWS = [
   { pt: "Maria R.", gap: "Mammogram", status: "Closed by patient", detail: "Added to 7/29 visit", tone: "green" },
   { pt: "Ray W.", gap: "A1c", status: "Closed by patient", detail: "Booked 7/30, was lapsed 14 mo", tone: "green" },
   { pt: "Denise O.", gap: "Colonoscopy", status: "Needs staff", detail: "Says completed elsewhere, records requested", tone: "amber" },
-  { pt: "Anthony P.", gap: "Mammogram", status: "Suppressed", detail: "Already scheduled 8/12", tone: "slate" },
+  { pt: "Patricia P.", gap: "Mammogram", status: "Suppressed", detail: "Already scheduled 8/12", tone: "slate" },
   { pt: "Carol T.", gap: "A1c", status: "Suppressed", detail: "Declined 6/02, quiet until 8/31", tone: "slate" },
   { pt: "Luis M.", gap: "Abnormal result follow-up", status: "Never automated", detail: "Acuity tier 3, routed to Dr. Simmons", tone: "red" },
 ];
