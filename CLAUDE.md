@@ -72,6 +72,12 @@ read in one pass, and the size does not justify splitting.
   label. Add new annotated elements by wrapping in `Marked`, not by hand.
 - Notes panel copy lives in the `NOTES` object, keyed `flow-step`. Every new
   step needs an entry or the panel silently falls back.
+- **Nothing inside `Phone` except what the patient sees.** Commentary about a
+  screen goes in `Aside`, which renders below the device on the page
+  background. `Replay` is a control for whoever is driving the demo and lives
+  out there too. Anything in the frame reads as product.
+- Anything clickable must do something. A styled `div` that ignores a click
+  reads as a broken build to the reviewer who clicks through unattended.
 
 ## Copy rules
 
