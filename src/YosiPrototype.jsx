@@ -260,6 +260,29 @@ function Aside({ children, layer, insp, wide = false }) {
   );
 }
 
+/* A control for the person running the demo, so it sits outside the device
+   next to the commentary. No patient sees a replay button. */
+function Replay({ onClick }) {
+  return (
+    <div className="mx-auto w-full mt-4 flex justify-center" style={{ maxWidth: "358px" }}>
+      <button
+        onClick={onClick}
+        className="px-3 py-2 rounded-md hover:opacity-70"
+        style={{
+          ...mono,
+          fontSize: "10px",
+          letterSpacing: "0.12em",
+          color: C.slate,
+          background: "transparent",
+          border: `1px solid ${C.line}`,
+        }}
+      >
+        REPLAY THIS FLOW
+      </button>
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /*  Flow 1 — Pre-arrival intake                                        */
 /* ------------------------------------------------------------------ */
@@ -303,7 +326,7 @@ function IntakeFlow({ step, go, insp }) {
             You&apos;re due for a mammogram.
           </h2>
           <p className="mt-2 text-sm leading-relaxed" style={{ color: C.inkSoft }}>
-            Your last one was March 2023. Screenings are recommended every year, and
+            Your last one was May 2024. Screenings are recommended every two years, and
             catching things early is the whole point. Dr. Simmons can order it Tuesday
             so you only make one trip.
           </p>
@@ -313,7 +336,7 @@ function IntakeFlow({ step, go, insp }) {
           <div className="px-3 py-3 rounded-lg" style={{ background: C.paper }}>
             <div style={{ ...mono, fontSize: "10px", color: C.slate }}>FROM YOUR CHART</div>
             <div className="mt-1 text-xs" style={{ color: C.inkSoft }}>
-              Mammogram, screening &middot; last completed 03/2023 &middot; 26 months ago
+              Mammogram, screening &middot; last completed 05/2024 &middot; 26 months ago
             </div>
           </div>
         </Marked>
@@ -347,16 +370,12 @@ function IntakeFlow({ step, go, insp }) {
           The front desk has it. Nothing else for you to do. You&apos;ll be at the same
           visit, same time.
         </p>
-        <div className="mt-5">
-          <Btn kind="ghost" onClick={() => go(0)}>
-            Replay this flow
-          </Btn>
-        </div>
       </Phone>
         <Aside layer="rule" insp={insp}>
           Order request queued to Dr. Simmons for sign-off. Nothing is described to the
           patient as an order until a clinician approves it.
         </Aside>
+        <Replay onClick={() => go(0)} />
       </>
     );
 
@@ -370,25 +389,43 @@ function IntakeFlow({ step, go, insp }) {
         </h2>
         <div className="mt-4 space-y-2">
           {["Another imaging center", "A different doctor's office", "I'm not sure"].map((t) => (
-            <div
+            <button
               key={t}
-              className="px-3 py-3 rounded-lg text-sm"
+              onClick={() => go(5)}
+              className="w-full text-left px-3 py-3 rounded-lg text-sm hover:opacity-80"
               style={{ background: C.paper, color: C.ink, border: `1px solid ${C.line}` }}
             >
               {t}
-            </div>
+            </button>
           ))}
         </div>
-        <div className="mt-5">
-          <Btn kind="ghost" onClick={() => go(0)}>
-            Replay this flow
-          </Btn>
-        </div>
+      </Phone>
+        <Aside layer="rule" insp={insp}>
+          Patients know things the chart does not. Asking is cheaper than carrying a gap
+          that was already closed somewhere else.
+        </Aside>
+        <Replay onClick={() => go(0)} />
+      </>
+    );
+
+  if (step === 5)
+    return (
+      <>
+      <Phone>
+        <Eyebrow>THANKS</Eyebrow>
+        <h2 className="mt-2 text-lg font-semibold" style={{ color: C.ink }}>
+          We&apos;ll ask for the records
+        </h2>
+        <p className="mt-2 text-sm leading-relaxed" style={{ color: C.inkSoft }}>
+          Nothing else for you to do. If it turns out you&apos;re up to date, we won&apos;t
+          bring this up again.
+        </p>
       </Phone>
         <Aside layer="rule" insp={insp}>
           Routed to staff to reconcile against outside records. The gap moves to paused
           and stays open until the records arrive. Self-report does not close it.
         </Aside>
+        <Replay onClick={() => go(0)} />
       </>
     );
 
@@ -402,16 +439,12 @@ function IntakeFlow({ step, go, insp }) {
         We won&apos;t bring it up again for a while. You can always ask Dr. Simmons about
         it Tuesday.
       </p>
-      <div className="mt-5">
-        <Btn kind="ghost" onClick={() => go(0)}>
-          Replay this flow
-        </Btn>
-      </div>
     </Phone>
       <Aside layer="rule" insp={insp}>
         Suppressed for 90 days and written to the log. A declined gap that keeps
         reappearing trains patients to ignore everything else Yosi sends.
       </Aside>
+      <Replay onClick={() => go(0)} />
     </>
   );
 }
@@ -473,12 +506,13 @@ function LapsedFlow({ step, go, insp }) {
         <h2 className="mt-2 text-lg font-semibold" style={{ color: C.ink }}>
           Date of birth
         </h2>
-        <div
-          className="mt-4 px-3 py-3 rounded-lg text-sm"
-          style={{ background: C.paper, color: C.slate, border: `1px solid ${C.line}` }}
-        >
-          MM / DD / YYYY
-        </div>
+        <input
+          type="text"
+          inputMode="numeric"
+          placeholder="MM / DD / YYYY"
+          className="mt-4 w-full px-3 py-3 rounded-lg text-sm"
+          style={{ background: C.paper, color: C.ink, border: `1px solid ${C.line}` }}
+        />
         <div className="mt-4">
           <Btn onClick={() => go(2)}>Continue</Btn>
         </div>
@@ -509,7 +543,7 @@ function LapsedFlow({ step, go, insp }) {
               NEXT AVAILABLE
             </div>
             <div className="mt-2 space-y-2">
-              {["Thu Jul 30 &middot; 8:20 AM", "Fri Jul 31 &middot; 2:45 PM", "Mon Aug 3 &middot; 11:00 AM"].map(
+              {["Thu Jul 30 · 8:20 AM", "Fri Jul 31 · 2:45 PM", "Mon Aug 3 · 11:00 AM"].map(
                 (s, i) => (
                   <button
                     key={s}
@@ -520,8 +554,9 @@ function LapsedFlow({ step, go, insp }) {
                       color: i === 0 ? C.white : C.ink,
                       border: `1px solid ${i === 0 ? C.ink : C.line}`,
                     }}
-                    dangerouslySetInnerHTML={{ __html: s }}
-                  />
+                  >
+                    {s}
+                  </button>
                 )
               )}
             </div>
@@ -551,16 +586,12 @@ function LapsedFlow({ step, go, insp }) {
         July 30 at 8:20 AM. We&apos;ll text you a reminder and your intake forms the day
         before.
       </p>
-      <div className="mt-5">
-        <Btn kind="ghost" onClick={() => go(0)}>
-          Replay this flow
-        </Btn>
-      </div>
     </Phone>
       <Aside layer="yosi" insp={insp}>
         This drops into the existing pre-arrival flow. The gap that started it becomes a
         normal Yosi visit, and the front desk was never involved.
       </Aside>
+      <Replay onClick={() => go(0)} />
     </>
   );
 }
@@ -569,7 +600,7 @@ function LapsedFlow({ step, go, insp }) {
 /*  Flow 3 — Staff queue                                               */
 /* ------------------------------------------------------------------ */
 const ROWS = [
-  { pt: "Maria R.", gap: "Mammogram", status: "Closed by patient", detail: "Added to 7/29 visit", tone: "green" },
+  { pt: "Maria R.", gap: "Mammogram", status: "Closed by patient", detail: "Added to 7/28 visit", tone: "green" },
   { pt: "Ray W.", gap: "A1c", status: "Closed by patient", detail: "Booked 7/30, was lapsed 14 mo", tone: "green" },
   { pt: "Denise O.", gap: "Colonoscopy", status: "Needs staff", detail: "Says completed elsewhere, records requested", tone: "amber" },
   { pt: "Patricia P.", gap: "Mammogram", status: "Suppressed", detail: "Already scheduled 8/12", tone: "slate" },
@@ -585,8 +616,8 @@ function StaffView({ insp }) {
       <Marked layer="yosi" on={insp}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { n: "68%", l: "Gaps closed, 90 days" },
-            { n: "81%", l: "Closed with no staff touch" },
+            { n: "68%", l: "Eligible gaps closed, 90 days" },
+            { n: "81%", l: "Of those, closed with no staff touch" },
             { n: "+22 pts", l: "vs. randomized holdout" },
             { n: "94%", l: "Intake completion (guardrail)" },
           ].map((m) => (
@@ -595,7 +626,10 @@ function StaffView({ insp }) {
               className="px-4 py-4 rounded-lg"
               style={{ background: C.white, border: `1px solid ${C.line}` }}
             >
-              <div className="text-2xl font-semibold" style={{ color: C.ink }}>
+              <div
+                className="text-2xl font-semibold"
+                style={{ color: C.ink, whiteSpace: "nowrap" }}
+              >
                 {m.n}
               </div>
               <div className="mt-1 text-xs leading-snug" style={{ color: C.slate }}>
@@ -634,7 +668,7 @@ function StaffView({ insp }) {
             >
               {r.status.toUpperCase()}
             </div>
-            <div className="text-xs flex-1" style={{ color: C.slate }}>
+            <div className="text-xs flex-1" style={{ color: C.slate, minWidth: "220px" }}>
               {r.detail}
             </div>
           </div>
@@ -668,7 +702,11 @@ const NOTES = {
   },
   "intake-3": {
     h: "Outside records",
-    p: "Outside records are the most common reason gap lists go stale. Maria gets an option that matches what actually happened, and the gap moves to paused while staff request the records. Self-report alone does not close it.",
+    p: "Outside records are the most common reason gap lists go stale. Maria gets an option that matches what actually happened, which is cheaper than chasing a gap that was closed at an imaging center last spring.",
+  },
+  "intake-5": {
+    h: "Paused, with a reason attached",
+    p: "The gap leaves the automated path and lands on the staff queue with the patient's answer attached. Nothing is marked complete until an outside record arrives.",
   },
   "intake-4": {
     h: "A no is recorded",
@@ -692,7 +730,7 @@ const NOTES = {
   },
   staff: {
     h: "The practice is the buyer",
-    p: "So the number that matters is the share that closed without anyone touching it. The holdout is 10 percent of eligible patients who receive nothing, which is how you separate this from seasonality and the reminders Yosi already sends. Intake completion sits next to it as a guardrail. If this feature drags the core product down, it gets turned off.",
+    p: "So the number that matters is the share that closed without anyone touching it: 81 percent of closures, or 55 percent of every eligible gap. The holdout is 10 percent of eligible patients who receive nothing, which is how you separate this from seasonality and the reminders Yosi already sends. Intake completion sits next to it as a guardrail. If this feature drags the core product down, it gets turned off.",
   },
 };
 
