@@ -77,27 +77,134 @@ function Marked({ layer, on, children, className = "" }) {
 /* ------------------------------------------------------------------ */
 /*  Shell pieces                                                       */
 /* ------------------------------------------------------------------ */
-function Phone({ children, chrome = "9:41" }) {
+/* Signal, wifi, battery. Drawn rather than imported so the file stays
+   dependency-free and pasteable. */
+function StatusIcons() {
   return (
-    <div
-      className="mx-auto w-full"
-      style={{
-        maxWidth: "340px",
-        background: C.white,
-        borderRadius: "26px",
-        border: `1px solid ${C.line}`,
-        boxShadow: "0 18px 40px rgba(14,36,56,0.14)",
-        overflow: "hidden",
-      }}
-    >
-      <div
-        className="flex items-center justify-between px-5 py-2"
-        style={{ ...mono, fontSize: "10px", color: C.slate, borderBottom: `1px solid ${C.line}` }}
+    <div className="flex items-center" style={{ gap: "5px", color: C.ink }}>
+      <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor" aria-hidden="true">
+        <rect x="0" y="7.5" width="3" height="3.5" rx="0.8" />
+        <rect x="4.6" y="5.2" width="3" height="5.8" rx="0.8" />
+        <rect x="9.2" y="2.7" width="3" height="8.3" rx="0.8" />
+        <rect x="13.8" y="0" width="3" height="11" rx="0.8" />
+      </svg>
+      <svg
+        width="16"
+        height="12"
+        viewBox="0 0 16 12"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        aria-hidden="true"
       >
-        <span>{chrome}</span>
-        <span>Riverside Primary Care</span>
+        <path d="M1.3 4.1a10 10 0 0 1 13.4 0" />
+        <path d="M3.7 6.8a6.4 6.4 0 0 1 8.6 0" />
+        <path d="M6.2 9.4a2.9 2.9 0 0 1 3.6 0" />
+      </svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" aria-hidden="true">
+        <rect
+          x="0.6"
+          y="0.6"
+          width="21"
+          height="10.8"
+          rx="3.2"
+          fill="none"
+          stroke="currentColor"
+          strokeOpacity="0.35"
+          strokeWidth="1.2"
+        />
+        <rect x="2.2" y="2.2" width="15.5" height="7.6" rx="1.9" fill="currentColor" />
+        <path
+          d="M23.2 4.3v3.4a1.9 1.9 0 0 0 0-3.4z"
+          fill="currentColor"
+          fillOpacity="0.35"
+        />
+      </svg>
+    </div>
+  );
+}
+
+function Phone({ children, chrome = "Riverside Primary Care" }) {
+  return (
+    <div className="mx-auto w-full" style={{ maxWidth: "358px" }}>
+      <div
+        className="relative"
+        style={{
+          background: C.ink,
+          borderRadius: "46px",
+          padding: "9px",
+          boxShadow: "0 24px 50px rgba(14,36,56,0.30)",
+        }}
+      >
+        {/* side buttons */}
+        <div
+          className="absolute"
+          style={{ left: "-2px", top: "108px", width: "2px", height: "26px", borderRadius: "2px", background: C.inkSoft }}
+        />
+        <div
+          className="absolute"
+          style={{ left: "-2px", top: "146px", width: "2px", height: "26px", borderRadius: "2px", background: C.inkSoft }}
+        />
+        <div
+          className="absolute"
+          style={{ right: "-2px", top: "126px", width: "2px", height: "42px", borderRadius: "2px", background: C.inkSoft }}
+        />
+
+        <div
+          className="relative overflow-hidden"
+          style={{ background: C.white, borderRadius: "38px", minHeight: "472px" }}
+        >
+          {/* dynamic island */}
+          <div
+            className="absolute left-1/2"
+            style={{
+              top: "9px",
+              transform: "translateX(-50%)",
+              width: "88px",
+              height: "25px",
+              borderRadius: "999px",
+              background: C.ink,
+              zIndex: 10,
+            }}
+          />
+
+          {/* status bar */}
+          <div
+            className="flex items-end justify-between px-6"
+            style={{ height: "44px", paddingBottom: "7px" }}
+          >
+            <span style={{ ...mono, fontSize: "11px", fontWeight: 600, color: C.ink }}>9:41</span>
+            <StatusIcons />
+          </div>
+
+          {/* app header */}
+          <div
+            className="flex items-center justify-center px-5 py-2"
+            style={{ borderBottom: `1px solid ${C.line}` }}
+          >
+            <span style={{ ...mono, fontSize: "10px", letterSpacing: "0.06em", color: C.slate }}>
+              {chrome}
+            </span>
+          </div>
+
+          <div className="px-5 pt-5 pb-10">{children}</div>
+
+          {/* home indicator */}
+          <div
+            className="absolute left-1/2"
+            style={{
+              bottom: "9px",
+              transform: "translateX(-50%)",
+              width: "118px",
+              height: "5px",
+              borderRadius: "999px",
+              background: C.ink,
+              opacity: 0.22,
+            }}
+          />
+        </div>
       </div>
-      <div className="p-5">{children}</div>
     </div>
   );
 }
@@ -141,7 +248,7 @@ function Aside({ children, layer, insp, wide = false }) {
     </div>
   );
   return (
-    <div className="mx-auto w-full mt-5" style={{ maxWidth: wide ? "100%" : "340px" }}>
+    <div className="mx-auto w-full mt-5" style={{ maxWidth: wide ? "100%" : "358px" }}>
       {layer ? (
         <Marked layer={layer} on={insp}>
           {body}
