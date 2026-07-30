@@ -874,6 +874,15 @@ export default function YosiPrototype() {
               authentication. Detection logic is stubbed. What it demonstrates is the
               workflow and the guardrails around it.
             </p>
+            <a
+              href={`${import.meta.env.BASE_URL}yosi-product-feature-brian-simmons.pdf`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-block mt-4 text-xs"
+              style={{ color: C.slate, textDecoration: "underline" }}
+            >
+              Open the write-up (PDF)
+            </a>
           </div>
         </div>
       </div>
